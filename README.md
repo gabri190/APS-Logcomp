@@ -35,7 +35,25 @@ set (ball i = 0; i < 3; i++) {
 ```
 ### Tipos de Dados:
 
-Para tipos de dados, usamos single (inteiros), double (flutuantes), string (cadeias de caracteres) e os booleanos são representados como in (verdadeiro) e out (falso).
+- Ace  Representa um valor booleano, podendo ser in (true) ou out (false).
+- Match Representa uma cadeia de caracteres.
+- Point  Representa um número inteiro.
+- Game  Representa um número de ponto flutuante.
+
+### Equivalência Go e TennisScript
+Println -> UmpireCall
+var -> ball
+Scanln -> UmpireAsk
+string -> Match
+int -> Point
+bool -> Ace 
+true-> in 
+false -> out
+float -> Game
+if -> serve
+else -> fault
+for -> set
+
 
 ## Tarefa 1
 
@@ -45,48 +63,42 @@ Para tipos de dados, usamos single (inteiros), double (flutuantes), string (cade
 
 #### TennisScript EBNF
 
+program ::= statement* ;
 
-program     ::= statement* ;
+statement ::= declaration | assignment | umpire_call | umpire_ask | control_flow | expr ';' ;
 
-statement   ::= var_decl 
-              | conditional 
-              | loop 
-              | assignment 
-              | expr ';' ;
+declaration ::= 'ball' ID ':' type_value '=' expr ';' ;
 
-var_decl    ::= 'ball' ID '=' expr ';' ;
+assignment ::= ID '=' expr ';' ;
 
-assignment  ::= ID '=' expr ';' ;
+umpire_call ::= 'UmpireCall' '(' expr ')' ';' ;
 
-conditional ::= 'serve' '(' expr ')' block fault_block? ;
+umpire_ask ::= 'UmpireAsk' '(' ID ')' ';' ;
 
-block       ::= '{' statement* '}' ;
+control_flow ::= serve_statement | set_loop ;
 
-fault_block ::= 'fault' block ;
+serve_statement ::= 'Serve' '(' expr ')' block ('Fault' block)? ;
 
-loop        ::= while_loop | for_loop ;
+set_loop ::= 'Set' '(' expr ';' expr ';' expr ')' block ;
 
-while_loop  ::= 'rally' '(' expr ')' block ;
+block ::= '{' statement* '}' ;
 
-for_loop    ::= 'set' '(' var_decl_or_assign expr ';' expr ')' block ;
+expr ::= comparison (logical_op comparison)* ;
 
-var_decl_or_assign ::= var_decl | assignment ;
+comparison ::= term (comparison_op term)* ;
 
-expr        ::= term (('+' | '-') term)* ;
+term ::= factor (('Serve' | 'Return' | 'Rally') factor)* ;
 
-term        ::= factor (('*' | '/') factor)* ;
+factor ::= '(' expr ')' | ID | NUMBER | STRING ;
 
-factor      ::= '(' expr ')' 
-              | ID 
-              | NUMBER 
-              | STRING 
-              | boolean ;
+logical_op ::= '||' | '&&' ;
 
-boolean     ::= 'in' | 'out' ;
+comparison_op ::= '==' | '!=' | '>' | '<' ;
 
-ID          ::= [a-zA-Z_][a-zA-Z0-9_]* ;  (* Identificador *)
+type_value ::= 'Match' | 'Point' ;
 
-NUMBER      ::= [0-9]+ ('.' [0-9]+)? ;    (* Números inteiros e flutuantes *)
+ID ::= [a-zA-Z_][a-zA-Z0-9_]* ; (* Identificador *)
 
-STRING      ::= '"' .*? '"' ;              (* Strings, supondo que não haja escape para aspas duplas *)
+NUMBER ::= [0-9]+ ; (* Números inteiros *)
 
+STRING ::= '"' .? '"' ; (* Strings, supondo que não haja escape para aspas duplas *)
