@@ -41,18 +41,18 @@ set (ball i = 0; i < 3; i++) {
 - Game  Representa um número de ponto flutuante.
 
 ### Equivalência Go e TennisScript
-Println -> UmpireCall
-var -> ball
-Scanln -> UmpireAsk
-string -> Match
-int -> Point
-bool -> Ace 
-true-> in 
-false -> out
-float -> Game
-if -> serve
-else -> fault
-for -> set
+- Println -> UmpireCall
+- var -> ball
+- Scanln -> UmpireAsk
+- string -> Match
+- int -> Point
+- bool -> Ace 
+- true-> in 
+- false -> out
+- float -> Game
+- if -> serve
+- else -> fault
+- for -> set
 
 
 ## Tarefa 1
