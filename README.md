@@ -62,7 +62,7 @@ set (ball i = 0; i < 3; i++) {
 
 
 #### TennisScript EBNF
-
+```shell
 program ::= statement* ;
 
 statement ::= declaration | assignment | umpire_call | umpire_ask | control_flow | expr ';' ;
@@ -102,3 +102,4 @@ ID ::= [a-zA-Z_][a-zA-Z0-9_]* ; (* Identificador *)
 NUMBER ::= [0-9]+ ; (* Números inteiros *)
 
 STRING ::= '"' .? '"' ; (* Strings, supondo que não haja escape para aspas duplas *)
+```
