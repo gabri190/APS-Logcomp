@@ -65,15 +65,15 @@ set (ball i = 0; i < 3; i++) {
 ```shell
 program ::= statement* ;
 
-statement ::= declaration | assignment | umpire_call | umpire_ask | control_flow | expr ';' ;
+statement ::= declaration | assignment | umpire_call | umpire_ask | control_flow | expr  ;
 
-declaration ::= 'ball' ID ':' type_value '=' expr ';' ;
+declaration ::= 'ball' ID ':' type_value '=' expr ;
 
 assignment ::= ID '=' expr ';' ;
 
-umpire_call ::= 'UmpireCall' '(' expr ')' ';' ;
+umpire_call ::= 'UmpireCall' '(' expr ')' ;
 
-umpire_ask ::= 'UmpireAsk' '(' ID ')' ';' ;
+umpire_ask ::= 'UmpireAsk' '(' ID ')' ;
 
 control_flow ::= serve_statement | set_loop ;
 
