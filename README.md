@@ -74,7 +74,7 @@ set (ball i = 0; i < 3; i++) {
 ```shell
 program ::= statement* ;
 
-statement ::= variable_declaration | assignment | function_call | function_declaration | return_statement | umpire_call | umpire_ask | control_flow | expr ;
+statement ::= variable_declaration | assignment | function_call | function_declaration | tennis_return_statement | umpire_call | umpire_ask | control_flow | expr ;
 
 variable_declaration ::= 'ball' ID ':' tennis_type '=' expr ;
 
@@ -84,7 +84,7 @@ function_call ::= ID '(' expr ')' ;
 
 function_declaration ::= 'Func' ID '(' params ')' block ;
 
-return_statement ::= 'Return' expr ';' ;
+tennis_return_statement ::= 'TennisReturn' expr ';' ;
 
 params ::= ID (',' ID)* ;
 
@@ -104,7 +104,7 @@ expr ::= comparison (tennis_logical_op comparison)* ;
 
 comparison ::= term (tennis_comparison_op term)* ;
 
-term ::= factor (('Serve' | 'Return' | 'Rally') factor)* ;
+term ::= factor (('Serve' | 'TennisReturn' | 'Rally') factor)* ;
 
 factor ::= '(' expr ')' | ID | NUMBER | STRING ;
 
@@ -118,6 +118,6 @@ ID ::= [a-zA-Z_][a-zA-Z0-9_]* ; (* Identificador *)
 
 NUMBER ::= [0-9]+ ; (* Números inteiros *)
 
-STRING ::= '"' .? '"' ; (* Strings, supondo que não haja escape para aspas duplas *)
+STRING ::= '"' [^"]* '"' ; (* Strings, sem escape para aspas duplas *)
 
 ```
