@@ -46,13 +46,22 @@ set (ball i = 0; i < 3; i++) {
 - Scanln -> UmpireAsk
 - string -> Match
 - int -> Point
-- bool -> Ace 
-- true-> in 
+- bool -> Ace
+- true -> in
 - false -> out
 - float -> Game
 - if -> serve
 - else -> fault
 - for -> set
+- return -> Return
+- func -> Func
+- || -> Ace (OR)
+- && -> Volley (AND)
+- == -> Equal
+- ! -> not (NotEqual)
+- > -> Advantage
+- < -> Disadvantage
+
 
 
 ## Tarefa 1
@@ -65,41 +74,50 @@ set (ball i = 0; i < 3; i++) {
 ```shell
 program ::= statement* ;
 
-statement ::= declaration | assignment | umpire_call | umpire_ask | control_flow | expr  ;
+statement ::= variable_declaration | assignment | function_call | function_declaration | tennis_return_statement | umpire_call | umpire_ask | control_flow | expr ;
 
-declaration ::= 'ball' ID ':' type_value '=' expr ;
+variable_declaration ::= 'ball' ID ':' tennis_type '=' expr ;
 
 assignment ::= ID '=' expr ';' ;
+
+function_call ::= ID '(' expr ')' ;
+
+function_declaration ::= 'Func' ID '(' params ')' block ;
+
+tennis_return_statement ::= 'TennisReturn' expr ';' ;
+
+params ::= ID (',' ID)* ;
 
 umpire_call ::= 'UmpireCall' '(' expr ')' ;
 
 umpire_ask ::= 'UmpireAsk' '(' ID ')' ;
 
-control_flow ::= serve_statement | set_loop ;
+control_flow ::= serve_statement | rally_loop ;
 
 serve_statement ::= 'Serve' '(' expr ')' block ('Fault' block)? ;
 
-set_loop ::= 'Set' '(' expr ';' expr ';' expr ')' block ;
+rally_loop ::= 'Rally' '(' expr ')' block ;
 
 block ::= '{' statement* '}' ;
 
-expr ::= comparison (logical_op comparison)* ;
+expr ::= comparison (tennis_logical_op comparison)* ;
 
-comparison ::= term (comparison_op term)* ;
+comparison ::= term (tennis_comparison_op term)* ;
 
-term ::= factor (('Serve' | 'Return' | 'Rally') factor)* ;
+term ::= factor (('Serve' | 'TennisReturn' | 'Rally') factor)* ;
 
 factor ::= '(' expr ')' | ID | NUMBER | STRING ;
 
-logical_op ::= '||' | '&&' ;
+tennis_logical_op ::= 'Ace' | 'Volley' ;
 
-comparison_op ::= '==' | '!=' | '>' | '<' ;
+tennis_comparison_op ::= 'Equal' | 'NotEqual' | 'Advantage' | 'Disadvantage' ;
 
-type_value ::= 'Match' | 'Point' ;
+tennis_type ::= 'Match' | 'Point' | 'Game' | 'Ace' ;
 
 ID ::= [a-zA-Z_][a-zA-Z0-9_]* ; (* Identificador *)
 
 NUMBER ::= [0-9]+ ; (* Números inteiros *)
 
-STRING ::= '"' .? '"' ; (* Strings, supondo que não haja escape para aspas duplas *)
+STRING ::= '"' [^"]* '"' ; (* Strings, sem escape para aspas duplas *)
+
 ```
