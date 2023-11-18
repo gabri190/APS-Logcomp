@@ -118,7 +118,7 @@ extern int yydebug;
     YYUNDEF = 257,                 /* "invalid token"  */
     SERVE = 258,                   /* SERVE  */
     FAULT = 259,                   /* FAULT  */
-    SET = 260,                     /* SET  */
+    RALLY = 260,                   /* RALLY  */
     BALL = 261,                    /* BALL  */
     UMPIRE_CALL = 262,             /* UMPIRE_CALL  */
     UMPIRE_ASK = 263,              /* UMPIRE_ASK  */
@@ -143,7 +143,7 @@ extern int yydebug;
 #define YYUNDEF 257
 #define SERVE 258
 #define FAULT 259
-#define SET 260
+#define RALLY 260
 #define BALL 261
 #define UMPIRE_CALL 262
 #define UMPIRE_ASK 263
@@ -160,11 +160,6 @@ extern int yydebug;
 #define STRING 274
 
 /* Value type.  */
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define YYSTYPE_IS_DECLARED 1
-#endif
 
 
 extern YYSTYPE yylval;
@@ -183,7 +178,7 @@ enum yysymbol_kind_t
   YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
   YYSYMBOL_SERVE = 3,                      /* SERVE  */
   YYSYMBOL_FAULT = 4,                      /* FAULT  */
-  YYSYMBOL_SET = 5,                        /* SET  */
+  YYSYMBOL_RALLY = 5,                      /* RALLY  */
   YYSYMBOL_BALL = 6,                       /* BALL  */
   YYSYMBOL_UMPIRE_CALL = 7,                /* UMPIRE_CALL  */
   YYSYMBOL_UMPIRE_ASK = 8,                 /* UMPIRE_ASK  */
@@ -215,13 +210,15 @@ enum yysymbol_kind_t
   YYSYMBOL_umpire_ask = 34,                /* umpire_ask  */
   YYSYMBOL_control_flow = 35,              /* control_flow  */
   YYSYMBOL_serve_statement = 36,           /* serve_statement  */
-  YYSYMBOL_set_loop = 37,                  /* set_loop  */
-  YYSYMBOL_block = 38,                     /* block  */
-  YYSYMBOL_expr = 39,                      /* expr  */
-  YYSYMBOL_comparison = 40,                /* comparison  */
-  YYSYMBOL_term = 41,                      /* term  */
-  YYSYMBOL_factor = 42,                    /* factor  */
-  YYSYMBOL_type_value = 43                 /* type_value  */
+  YYSYMBOL_rally_loop = 37,                /* rally_loop  */
+  YYSYMBOL_set_loop = 38,                  /* set_loop  */
+  YYSYMBOL_block = 39,                     /* block  */
+  YYSYMBOL_expr = 40,                      /* expr  */
+  YYSYMBOL_comparison = 41,                /* comparison  */
+  YYSYMBOL_term = 42,                      /* term  */
+  YYSYMBOL_factor = 43,                    /* factor  */
+  YYSYMBOL_func_call = 44,                 /* func_call  */
+  YYSYMBOL_type_value = 45                 /* type_value  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -547,18 +544,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  38
+#define YYFINAL  3
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   84
+#define YYLAST   90
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  27
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  17
+#define YYNNTS  19
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  31
+#define YYNRULES  36
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  77
+#define YYNSTATES  84
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   274
@@ -609,10 +606,10 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    11,    11,    13,    14,    16,    17,    18,    19,    20,
-      21,    23,    25,    27,    29,    31,    32,    34,    36,    38,
-      40,    42,    42,    42,    42,    44,    46,    46,    46,    46,
-      48,    48
+       0,    17,    17,    19,    20,    23,    24,    25,    26,    27,
+      28,    29,    32,    34,    36,    38,    40,    41,    42,    45,
+      47,    49,    51,    53,    55,    55,    55,    55,    57,    59,
+      60,    61,    62,    63,    65,    67,    67
 };
 #endif
 
@@ -629,13 +626,13 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "SERVE", "FAULT",
-  "SET", "BALL", "UMPIRE_CALL", "UMPIRE_ASK", "MATCH", "POINT", "OR",
+  "RALLY", "BALL", "UMPIRE_CALL", "UMPIRE_ASK", "MATCH", "POINT", "OR",
   "AND", "EQ", "NEQ", "GT", "LT", "ID", "NUMBER", "STRING", "':'", "'='",
   "';'", "'('", "')'", "'{'", "'}'", "$accept", "program",
   "statement_list", "statement", "declaration", "assignment",
   "umpire_call", "umpire_ask", "control_flow", "serve_statement",
-  "set_loop", "block", "expr", "comparison", "term", "factor",
-  "type_value", YY_NULLPTR
+  "rally_loop", "set_loop", "block", "expr", "comparison", "term",
+  "factor", "func_call", "type_value", YY_NULLPTR
 };
 
 static const char *
@@ -645,12 +642,12 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-64)
+#define YYPACT_NINF (-42)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-1)
+#define YYTABLE_NINF (-34)
 
 #define yytable_value_is_error(Yyn) \
   0
@@ -659,14 +656,15 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      53,   -10,     2,    -6,     3,     4,   -11,   -11,   -11,    13,
-     -64,   -64,    30,    23,    53,   -64,   -64,   -64,   -64,   -64,
-     -64,   -64,   -64,   -64,    24,    25,    29,    30,    30,    16,
-      30,    26,   -64,   -64,   -64,   -64,    30,    27,   -64,   -64,
-      30,   -11,   -11,    38,    28,     0,    39,    40,    43,   -64,
-     -64,   -64,   -64,    41,    30,   -64,   -64,    52,    54,    55,
-     -64,    53,    47,    57,    30,   -64,   -64,    14,    41,    30,
-      58,   -64,   -64,    50,   -64,    41,   -64
+     -42,     8,    60,   -42,   -17,   -13,    18,    -8,    10,    11,
+      11,    11,   -16,   -42,   -42,    31,   -42,   -42,   -42,   -42,
+     -42,   -42,   -42,   -42,   -42,   -42,    28,    38,    40,    41,
+      31,    31,    34,    31,    42,    32,   -42,   -42,   -42,   -42,
+      31,    31,    35,    31,    11,    11,    36,    16,    33,    45,
+      46,    49,    56,   -42,   -42,   -42,   -42,    39,    31,    39,
+     -42,   -42,    37,    51,    59,   -42,   -42,   -42,    78,    61,
+     -42,    31,   -42,   -42,     6,    39,    31,    62,   -42,   -42,
+      63,   -42,    39,   -42
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -674,28 +672,29 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     0,     0,     0,     0,     0,     0,    27,
-      28,    29,     0,     0,     2,     3,     5,     6,     7,     8,
-       9,    15,    16,    10,     0,     0,     0,     0,     0,     0,
-       0,     0,    27,    22,    23,    24,     0,     0,     1,     4,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,    26,
-      20,    21,    25,     0,     0,    30,    31,     0,     0,     0,
-      12,     0,     0,     0,     0,    13,    14,     0,     0,     0,
-       0,    19,    17,     0,    11,     0,    18
+       3,     0,     2,     1,     0,     0,     0,     0,     0,     0,
+       0,     0,    30,    31,    32,     0,     4,     5,     6,     8,
+       9,    10,    16,    17,    18,    11,     0,     0,     0,     7,
+       0,     0,     0,     0,     0,    30,    25,    33,    26,    27,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,    29,    23,    24,    28,     0,     0,     0,
+      35,    36,     0,     0,     0,    13,    34,     3,     0,     0,
+      20,     0,    14,    15,     0,     0,     0,     0,    22,    19,
+       0,    12,     0,    21
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -64,   -64,    20,   -13,   -64,   -64,   -64,   -64,   -64,   -64,
-     -64,   -63,   -12,    35,    -4,    42,   -64
+     -42,   -42,    19,   -42,   -42,   -42,   -42,   -42,   -42,   -42,
+     -42,   -42,   -41,   -14,    47,    -7,    43,    -2,   -42
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,    13,    14,    15,    16,    17,    18,    19,    20,    21,
-      22,    62,    23,    24,    25,    26,    57
+       0,     1,     2,    16,    17,    18,    19,    20,    21,    22,
+      23,    24,    68,    25,    26,    27,    28,    37,    62
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -703,60 +702,63 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      37,    39,    33,    34,    35,    72,    32,    10,    11,    55,
-      56,    29,    76,    27,    12,    43,    44,     1,    46,     2,
-       3,     4,     5,    38,    48,    28,    30,    31,     6,     7,
-       8,     9,    10,    11,    36,    40,    45,    51,    41,    12,
-      71,    42,    63,    47,     6,     7,     8,    32,    10,    11,
-      54,    68,    70,    49,    39,    12,     1,    73,     2,     3,
-       4,     5,    53,    58,    59,    60,    61,     6,     7,     8,
-       9,    10,    11,    64,    75,    50,    65,    66,    12,    69,
-      74,    67,     0,     0,    52
+      29,    42,    36,    38,    39,    40,    30,    41,     3,     4,
+      31,     5,     6,     7,     8,    33,    46,    47,    70,    49,
+       9,    10,    11,    12,    13,    14,    51,    52,    35,    13,
+      14,    15,    78,    34,    79,    32,    15,    55,    58,    43,
+      59,    83,    60,    61,    69,     9,    10,    11,    35,    13,
+      14,    44,    45,   -33,    48,    41,    15,    77,    71,    50,
+      57,    53,    80,     4,    67,     5,     6,     7,     8,    63,
+      64,    65,    29,    72,     9,    10,    11,    12,    13,    14,
+      66,    73,    75,    76,    81,    15,    74,    82,    56,     0,
+      54
 };
 
 static const yytype_int8 yycheck[] =
 {
-      12,    14,     6,     7,     8,    68,    17,    18,    19,     9,
-      10,    17,    75,    23,    25,    27,    28,     3,    30,     5,
-       6,     7,     8,     0,    36,    23,    23,    23,    14,    15,
-      16,    17,    18,    19,    21,    11,    20,    41,    13,    25,
-      26,    12,    54,    17,    14,    15,    16,    17,    18,    19,
-      22,     4,    64,    26,    67,    25,     3,    69,     5,     6,
-       7,     8,    24,    24,    24,    22,    25,    14,    15,    16,
-      17,    18,    19,    21,    24,    40,    22,    22,    25,    22,
-      22,    61,    -1,    -1,    42
+       2,    15,     9,    10,    11,    21,    23,    23,     0,     3,
+      23,     5,     6,     7,     8,    23,    30,    31,    59,    33,
+      14,    15,    16,    17,    18,    19,    40,    41,    17,    18,
+      19,    25,    26,    23,    75,    17,    25,    44,    22,    11,
+      24,    82,     9,    10,    58,    14,    15,    16,    17,    18,
+      19,    13,    12,    12,    20,    23,    25,    71,    21,    17,
+      24,    26,    76,     3,    25,     5,     6,     7,     8,    24,
+      24,    22,    74,    22,    14,    15,    16,    17,    18,    19,
+      24,    22,     4,    22,    22,    25,    67,    24,    45,    -1,
+      43
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     5,     6,     7,     8,    14,    15,    16,    17,
-      18,    19,    25,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    39,    40,    41,    42,    23,    23,    17,
-      23,    23,    17,    41,    41,    41,    21,    39,     0,    30,
-      11,    13,    12,    39,    39,    20,    39,    17,    39,    26,
-      40,    41,    42,    24,    22,     9,    10,    43,    24,    24,
-      22,    25,    38,    39,    21,    22,    22,    29,     4,    22,
-      39,    26,    38,    39,    22,    24,    38
+       0,    28,    29,     0,     3,     5,     6,     7,     8,    14,
+      15,    16,    17,    18,    19,    25,    30,    31,    32,    33,
+      34,    35,    36,    37,    38,    40,    41,    42,    43,    44,
+      23,    23,    17,    23,    23,    17,    42,    44,    42,    42,
+      21,    23,    40,    11,    13,    12,    40,    40,    20,    40,
+      17,    40,    40,    26,    41,    42,    43,    24,    22,    24,
+       9,    10,    45,    24,    24,    22,    24,    25,    39,    40,
+      39,    21,    22,    22,    29,     4,    22,    40,    26,    39,
+      40,    22,    24,    39
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
        0,    27,    28,    29,    29,    30,    30,    30,    30,    30,
-      30,    31,    32,    33,    34,    35,    35,    36,    37,    38,
-      39,    40,    40,    40,    40,    41,    42,    42,    42,    42,
-      43,    43
+      30,    30,    31,    32,    33,    34,    35,    35,    35,    36,
+      37,    38,    39,    40,    41,    41,    41,    41,    42,    43,
+      43,    43,    43,    43,    44,    45,    45
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     1,     2,     1,     1,     1,     1,     1,
-       1,     7,     4,     5,     5,     1,     1,     7,     9,     3,
-       3,     3,     2,     2,     2,     3,     3,     1,     1,     1,
-       1,     1
+       0,     2,     1,     0,     2,     1,     1,     1,     1,     1,
+       1,     1,     7,     4,     5,     5,     1,     1,     1,     7,
+       5,     9,     3,     3,     3,     2,     2,     2,     3,     3,
+       1,     1,     1,     1,     4,     1,     1
 };
 
 
@@ -1219,56 +1221,128 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 11: /* declaration: BALL ID ':' type_value '=' expr ';'  */
-#line 23 "tennis.y"
+  case 3: /* statement_list: %empty  */
+#line 19 "tennis.y"
+                             { (yyval.stmt_list) = NULL; }
+#line 1228 "y.tab.c"
+    break;
+
+  case 4: /* statement_list: statement_list statement  */
+#line 20 "tennis.y"
+                                          { /* lógica para lidar com a lista de declarações */ }
+#line 1234 "y.tab.c"
+    break;
+
+  case 12: /* declaration: BALL ID ':' type_value '=' expr ';'  */
+#line 32 "tennis.y"
                                                   { /* Implemente a lógica para lidar com declarações */ }
-#line 1226 "y.tab.c"
+#line 1240 "y.tab.c"
     break;
 
-  case 12: /* assignment: ID '=' expr ';'  */
-#line 25 "tennis.y"
-                             { /* Implemente a lógica para lidar com atribuições */ }
-#line 1232 "y.tab.c"
-    break;
-
-  case 13: /* umpire_call: UMPIRE_CALL '(' expr ')' ';'  */
-#line 27 "tennis.y"
-                                           { /* Implemente a lógica para lidar com chamadas de Umpire */ }
-#line 1238 "y.tab.c"
-    break;
-
-  case 14: /* umpire_ask: UMPIRE_ASK '(' ID ')' ';'  */
-#line 29 "tennis.y"
-                                       { /* Implemente a lógica para lidar com perguntas ao Umpire */ }
-#line 1244 "y.tab.c"
-    break;
-
-  case 17: /* serve_statement: SERVE '(' expr ')' block FAULT block  */
+  case 13: /* assignment: ID '=' expr ';'  */
 #line 34 "tennis.y"
-                                                       { /* Implemente a lógica para lidar com estruturas 'serve' e 'fault' */ }
-#line 1250 "y.tab.c"
+                             { /* Implemente a lógica para lidar com atribuições */ }
+#line 1246 "y.tab.c"
     break;
 
-  case 18: /* set_loop: SET '(' expr ';' expr ';' expr ')' block  */
+  case 14: /* umpire_call: UMPIRE_CALL '(' expr ')' ';'  */
 #line 36 "tennis.y"
-                                                    { /* Implemente a lógica para lidar com loops 'set' */ }
-#line 1256 "y.tab.c"
+                                           { /* Implemente a lógica para lidar com chamadas de Umpire */ }
+#line 1252 "y.tab.c"
     break;
 
-  case 24: /* comparison: LT term  */
-#line 42 "tennis.y"
+  case 15: /* umpire_ask: UMPIRE_ASK '(' ID ')' ';'  */
+#line 38 "tennis.y"
+                                       { /* Implemente a lógica para lidar com perguntas ao Umpire */ }
+#line 1258 "y.tab.c"
+    break;
+
+  case 19: /* serve_statement: SERVE '(' expr ')' block FAULT block  */
+#line 45 "tennis.y"
+                                                       { /* Implemente a lógica para lidar com estruturas 'serve' e 'fault' */ }
+#line 1264 "y.tab.c"
+    break;
+
+  case 20: /* rally_loop: RALLY '(' expr ')' block  */
+#line 47 "tennis.y"
+                                      { /* Implemente a lógica para lidar com loops 'rally' */ }
+#line 1270 "y.tab.c"
+    break;
+
+  case 21: /* set_loop: RALLY '(' expr ';' expr ';' expr ')' block  */
+#line 49 "tennis.y"
+                                                      { /* Implemente a lógica para lidar com loops 'rally' */ }
+#line 1276 "y.tab.c"
+    break;
+
+  case 22: /* block: '{' statement_list '}'  */
+#line 51 "tennis.y"
+                               { /* Implemente a lógica para lidar com blocos */ }
+#line 1282 "y.tab.c"
+    break;
+
+  case 23: /* expr: comparison OR comparison  */
+#line 53 "tennis.y"
+                                { /* Implemente a lógica para lidar com expressões 'or' */ }
+#line 1288 "y.tab.c"
+    break;
+
+  case 27: /* comparison: LT term  */
+#line 55 "tennis.y"
                                                          { /* Implemente a lógica para lidar com comparações */ }
-#line 1262 "y.tab.c"
+#line 1294 "y.tab.c"
     break;
 
-  case 25: /* term: factor AND factor  */
-#line 44 "tennis.y"
+  case 28: /* term: factor AND factor  */
+#line 57 "tennis.y"
                          { /* Implemente a lógica para lidar com expressões lógicas 'and' */ }
-#line 1268 "y.tab.c"
+#line 1300 "y.tab.c"
+    break;
+
+  case 29: /* factor: '{' expr '}'  */
+#line 59 "tennis.y"
+                      { /* Implemente a lógica para lidar com blocos aninhados */ }
+#line 1306 "y.tab.c"
+    break;
+
+  case 30: /* factor: ID  */
+#line 60 "tennis.y"
+            { /* Implemente a lógica para lidar com identificadores */ }
+#line 1312 "y.tab.c"
+    break;
+
+  case 31: /* factor: NUMBER  */
+#line 61 "tennis.y"
+                { /* Implemente a lógica para lidar com números */ }
+#line 1318 "y.tab.c"
+    break;
+
+  case 32: /* factor: STRING  */
+#line 62 "tennis.y"
+                { /* Implemente a lógica para lidar com strings */ }
+#line 1324 "y.tab.c"
+    break;
+
+  case 33: /* factor: func_call  */
+#line 63 "tennis.y"
+                   { /* Implemente a lógica para lidar com chamadas de função */ }
+#line 1330 "y.tab.c"
+    break;
+
+  case 34: /* func_call: ID '(' expr ')'  */
+#line 65 "tennis.y"
+                            { /* Implemente a lógica para lidar com chamadas de função */ }
+#line 1336 "y.tab.c"
+    break;
+
+  case 36: /* type_value: POINT  */
+#line 67 "tennis.y"
+                           { /* Implemente a lógica para lidar com tipos de valores */ }
+#line 1342 "y.tab.c"
     break;
 
 
-#line 1272 "y.tab.c"
+#line 1346 "y.tab.c"
 
       default: break;
     }
@@ -1461,10 +1535,5 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 50 "tennis.y"
+#line 69 "tennis.y"
 
-
-int main() {
-    yyparse();
-    return 0;
-}

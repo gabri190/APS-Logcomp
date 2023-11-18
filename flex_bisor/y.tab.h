@@ -56,7 +56,7 @@ extern int yydebug;
     YYUNDEF = 257,                 /* "invalid token"  */
     SERVE = 258,                   /* SERVE  */
     FAULT = 259,                   /* FAULT  */
-    SET = 260,                     /* SET  */
+    RALLY = 260,                   /* RALLY  */
     BALL = 261,                    /* BALL  */
     UMPIRE_CALL = 262,             /* UMPIRE_CALL  */
     UMPIRE_ASK = 263,              /* UMPIRE_ASK  */
@@ -81,7 +81,7 @@ extern int yydebug;
 #define YYUNDEF 257
 #define SERVE 258
 #define FAULT 259
-#define SET 260
+#define RALLY 260
 #define BALL 261
 #define UMPIRE_CALL 262
 #define UMPIRE_ASK 263
@@ -98,11 +98,6 @@ extern int yydebug;
 #define STRING 274
 
 /* Value type.  */
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define YYSTYPE_IS_DECLARED 1
-#endif
 
 
 extern YYSTYPE yylval;
