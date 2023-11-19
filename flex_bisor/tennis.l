@@ -1,11 +1,16 @@
 %{
-#include "tennis.tab.h"  // Inclua o arquivo de cabeçalho gerado pelo Bison
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "tennis.tab.h"
+char* yyval;
 %}
+%option yylineno
+%option noyywrap
+
 
 %%
 "ball"          { return BALL; }
-"Func"          { return FUNC; }
-"Return"        { return TENNIS_RETURN; }
 "UmpireCall"    { return UMPIRE_CALL; }
 "UmpireAsk"     { return UMPIRE_ASK; }
 "Serve"         { return SERVE; }
@@ -19,23 +24,22 @@
 "in"            { return IN; }
 "out"           { return OUT; }
 "Volley"        { return VOLLEY; }
-"Equal"         { return EQUAL; }
-"NotEqual"      { return NOT_EQUAL; }
-"Advantage"     { return ADVANTAGE; }
-"Disadvantage"  { return DISADVANTAGE; }
-"{"             { return '{'; }
-"}"             { return '}'; }
-"("             { return '('; }
-")"             { return ')'; }
-"=="            { return EQ; }
-"!"            { return NEQ; }
+"Equal"         { return EQ; }
+"NotEqual"      { return NEQ; }
 ">"             { return GT; }
 "<"             { return LT; }
+"{"             { return LCOLCHETE; }
+"}"             { return RCOLCHETE; }
+"("             { return LPAREN; }
+")"             { return RPAREN; }
+"=="            { return EQ; }
+"!="            { return NEQ; }
+">="            { return GT; }
+"<="            { return LT; }
+"&&"            { return AND; }
+"||"            { return OR; }
 [ \t\n]         ; // Ignorar espaços em branco e novas linhas
 .              { /* Capturar outros caracteres */ return yytext[0]; }
 
 %%
 
-int yywrap() {
-    return 1;
-}
