@@ -97,6 +97,14 @@ type_value : MATCH
 
 Foi utilizado o compilador da disciplina e a partir dai houve adaptação para as características da linguagem e os testes realizados.
 A seguir serão colocados exemplos de estruturas com a linguagem TennisScript.
+### Compilação e saídas
+
+Para compilar você pode ir ate o diretorio "compiler" e entrar no diretório "tests" digitando o seguinte comando a seguir:
+```shell
+python ../main.py arquivo.tsc
+
+```
+Onde o arquivo.tsc pode ser substituido pelos arquivo que estão dentro da pastas e que serão apresentados como exemplo a seguir.
 
 ### Exemplos
 Todos esses exemplos estão encaixados na extensão .tsc
