@@ -93,24 +93,35 @@ type_value : MATCH
 
 ```
 ### Identificadores e tipos
+
+``` shell
 IDENTIFIER = LETTER, { LETTER | DIGIT | "_" } ;
 NUMBER = DIGIT, { DIGIT } ;
 STRING = """, {LETTER | DIGIT}, """ ;
 LETTER = ( a | ... | z | A | ... | Z ) ;
 DIGIT = ( 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 ) ;
 TYPE = ("Point", "Match");
-### Observarções:
+```
+
+### Observações:
 
 Foi utilizado o compilador da disciplina e a partir dai houve adaptação para as características da linguagem e os testes realizados.
 A seguir serão colocados exemplos de estruturas com a linguagem TennisScript.
+
 ### Compilação e saídas
 
-Para compilar você pode ir ate o diretorio "compiler" e entrar no diretório "tests" digitando o seguinte comando a seguir:
+Para compilar você pode ir até o diretorio "compiler" e entrar no diretório "tests" digitando o seguinte comando a seguir:
+
+```shell
+# No Diretório da APS
+cd compiler\tests
+```
+Agora execute esse comando
 ```shell
 python ../main.py arquivo.tsc
 
 ```
-Onde o arquivo.tsc pode ser substituido pelos arquivo que estão dentro da pastas e que serão apresentados como exemplo a seguir.
+Onde o "arquivo.tsc" pode ser substituido pelos arquivos que estão dentro da pasta tests e que serão apresentados como exemplo a seguir.
 
 ### Exemplos
 Todos esses exemplos estão encaixados na extensão .tsc
