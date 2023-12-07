@@ -54,15 +54,12 @@ set (ball i = 0; i < 3; i++) {
 ```shell
 program : statement ;
 
-statement : declaration
-          | assignment
+statement : assignment
           | umpire_call
           | umpire_ask
           | control_flow
           | expr
           ;
-
-declaration : BALL ID ':' type_value '=' expr ';' 
 
 assignment : ID '=' expr ';' 
 
@@ -71,13 +68,12 @@ umpire_call : UMPIRE_CALL LPAREN expr RPAREN ';'
 umpire_ask : UMPIRE_ASK LPAREN ID RPAREN ';'
 
 control_flow : serve_statement
-             | rally_loop
              ;
 
 serve_statement : SERVE LPAREN expr RPAREN block FAULT block 
 rally_loop : RALLY LPAREN expr RPAREN block 
 
-block : LCOLCHETE statement RCOLCHETE 
+block : OPENK statement CLOSEK 
 
 expr : comparison OR comparison 
 
