@@ -120,9 +120,9 @@ Todos esses exemplos estão encaixados na extensão .tsc
 ```shell
 # var_dec.tsc
 
-ball x int = 3
-ball y int = 7
-ball z int
+ball x Point = 3
+ball y Point = 7
+ball z Point
 
 z = x + y
 UmpireCall(z)
@@ -134,7 +134,7 @@ Saída Esperada: 10
 ```shell
 # cond.tsc
 
-ball a int
+ball a Point
 a = 5
 
 serve a > 3 {
@@ -152,7 +152,7 @@ Saída Esperada: 2
 ```shell
 # loop.tsc
 
-ball sum int=0
+ball sum Point=0
 set i = 1; i < 6 ; i = i + 1 {
 sum=sum+i
 } 
@@ -166,8 +166,8 @@ Saída Esperada: 15
 ```shell
 # str.tsc
 
-ball str1 string  
-ball str2 string 
+ball str1 Match  
+ball str2 Match 
 
 str1 ="Hello "
 str2 = "World"
@@ -181,7 +181,7 @@ Saída Esperada: Hello Word
 ```shell
 # mix.tsc
 
-ball num int
+ball num Point
 num = 10
 serve num > 5 {
 num = num * 2
