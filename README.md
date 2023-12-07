@@ -46,23 +46,9 @@ set (ball i = 0; i < 3; i++) {
 - Scanln -> UmpireAsk
 - string -> Match
 - int -> Point
-- bool -> Ace
-- true -> in
-- false -> out
-- float -> Game
 - if -> serve
 - else -> fault
 - for -> set
-- return -> TennisReturn
-- func -> Func
-- || -> Ace (OR)
-- && -> Volley (AND)
-- == -> Equal
-- ! -> not (NotEqual)
-- > -> Advantage
-- < -> Disadvantage
-
-
 
 ## Tarefa 1
 
