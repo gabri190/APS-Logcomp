@@ -7,38 +7,32 @@ TennisScript é uma linguagem de programação única que traz o mundo do tênis
 Usamos o termo ball para declarar uma variável.
 
 ``` go
-ball score = 15;
+ball x Point = 3
 
 ```
 ### Estruturas Condicionais:
 Usamos serve para o equivalente a "if" e fault para "else".
 
 ``` go
-serve (score == 15) {
-    // Código a ser executado se o placar for 15
+serve score > 3 {
+    score = 2
 } fault {
-    // Código a ser executado caso contrário
+    score = 7
 }
 
 ```
 ### Loops:
-Usamos rally para "while" e set para "for".
+Usamos set para "for".
 
 ``` go
-rally (score < 40) {
-    // Continue o loop enquanto o placar for menor que 40
-}
-
 set (ball i = 0; i < 3; i++) {
     // Execute o loop três vezes
 }
 ```
 ### Tipos de Dados:
 
-- Ace  Representa um valor booleano, podendo ser in (true) ou out (false).
 - Match Representa uma cadeia de caracteres.
 - Point  Representa um número inteiro.
-- Game  Representa um número de ponto flutuante.
 
 ### Equivalência Go e TennisScript
 - Println -> UmpireCall
@@ -58,53 +52,48 @@ set (ball i = 0; i < 3; i++) {
 
 #### TennisScript EBNF
 ```shell
-program ::= statement* ;
+program : statement ;
 
-statement ::= variable_declaration | assignment | function_call | function_declaration | tennis_return_statement | umpire_call | umpire_ask | control_flow | expr ;
+statement : declaration
+          | assignment
+          | umpire_call
+          | umpire_ask
+          | control_flow
+          | expr
+          ;
 
-variable_declaration ::= 'ball' ID ':' tennis_type '=' expr ;
+declaration : BALL ID ':' type_value '=' expr ';' 
 
-assignment ::= ID '=' expr ';' ;
+assignment : ID '=' expr ';' 
 
-function_call ::= ID '(' expr ')' ;
+umpire_call : UMPIRE_CALL LPAREN expr RPAREN ';' 
 
-function_declaration ::= 'Func' ID '(' params ')' block ;
+umpire_ask : UMPIRE_ASK LPAREN ID RPAREN ';'
 
-tennis_return_statement ::= 'TennisReturn' expr ';' ;
+control_flow : serve_statement
+             | rally_loop
+             ;
 
-params ::= ID (',' ID)* ;
+serve_statement : SERVE LPAREN expr RPAREN block FAULT block 
+rally_loop : RALLY LPAREN expr RPAREN block 
 
-umpire_call ::= 'UmpireCall' '(' expr ')' ;
+block : LCOLCHETE statement RCOLCHETE 
 
-umpire_ask ::= 'UmpireAsk' '(' ID ')' ;
+expr : comparison OR comparison 
 
-control_flow ::= serve_statement | rally_loop ;
+comparison : term EQ term | term NEQ term | term GT term | term LT term | term AND term 
+term : factor AND factor  ;
 
-serve_statement ::= 'Serve' '(' expr ')' block ('Fault' block)? ;
+factor : LPAREN expr RPAREN 
+       | ID 
+       | NUMBER 
+       | STRING 
+       ;
 
-rally_loop ::= 'Rally' '(' expr ')' block ;
 
-block ::= '{' statement* '}' ;
-
-expr ::= comparison (tennis_logical_op comparison)* ;
-
-comparison ::= term (tennis_comparison_op term)* ;
-
-term ::= factor (('Serve' | 'TennisReturn' | 'Rally') factor)* ;
-
-factor ::= '(' expr ')' | ID | NUMBER | STRING ;
-
-tennis_logical_op ::= 'Ace' | 'Volley' ;
-
-tennis_comparison_op ::= 'Equal' | 'NotEqual' | 'Advantage' | 'Disadvantage' ;
-
-tennis_type ::= 'Match' | 'Point' | 'Game' | 'Ace' ;
-
-ID ::= [a-zA-Z_][a-zA-Z0-9_]* ; (* Identificador *)
-
-NUMBER ::= [0-9]+ ; (* Números inteiros *)
-
-STRING ::= '"' [^"]* '"' ; (* Strings, sem escape para aspas duplas *)
+type_value : MATCH 
+           | POINT 
+           ;
 
 ```
 
