@@ -1,0 +1,8 @@
+
+# teste 4
+ball x int = 3
+ball y int = 7
+ball z int
+
+z = x + y
+UmpireCall(z)

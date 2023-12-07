@@ -1,6 +1,4 @@
-# The Tokenizer class is used to tokenize source code by identifying different types of tokens such as
-# keywords, identifiers, operators, and literals.
-reserved = ['Println',"for", "if", "else", "Scanln","var","func","return"]
+reserved = ['UmpireCall',"set", "serve", "fault", "UmpireAsk","ball"]
 # PRINTLN = reserved
 type_values=["string","int"]
 
@@ -33,7 +31,6 @@ class Tokenizer:
                 num += self.source[self.position]
                 self.position += 1
             self.next = Token('INT', int(num))
-            
         #String
         elif self.source[self.position] == '"':
             self.position+=1
@@ -87,7 +84,6 @@ class Tokenizer:
             
         
         elif self.source[self.position] == '\n':
-            
             self.next = Token("NEWLINE", "\n")
             self.position+=1
         elif self.source[self.position] == '|':
@@ -117,9 +113,6 @@ class Tokenizer:
             self.position+=1
         elif self.source[self.position] == '.':
             self.next = Token("CONCAT", ".")
-            self.position+=1
-        elif self.source[self.position] == ',':
-            self.next = Token("COMMA", ",")
             self.position+=1
         else:
             raise ValueError(f"Unknown character encountered {self.source[self.position]}")

@@ -9,7 +9,7 @@ class Parser:
     
     @staticmethod
     def parseFactor():
-        tokens = Parser.tokenizer
+        tokens=Parser.tokenizer
         if tokens.next.type == 'INT':
             result = IntVal(tokens.next.value, [])
             tokens.selectNext()
@@ -18,7 +18,7 @@ class Parser:
             result = StrVal(tokens.next.value, [])
             tokens.selectNext()
             return result
-        elif tokens.next.type in ('PLUS', 'MINUS', 'NOT'):
+        elif tokens.next.type in ('PLUS', 'MINUS','NOT'):
             operator = tokens.next.type
             tokens.selectNext()
             factor = Parser.parseFactor()
@@ -26,8 +26,8 @@ class Parser:
                 return UnOp('+', [factor])
             elif operator == 'MINUS':
                 return UnOp('-', [factor])
-            elif operator == 'NOT':
-                return UnOp('!', [factor])
+            elif operator=='NOT':
+                return UnOp('!',[factor])
         elif tokens.next.type == 'LPAREN':
             tokens.selectNext()
             result = Parser.boolexpression()
@@ -35,41 +35,21 @@ class Parser:
                 raise ValueError("Esperado fechamento de parênteses")
             tokens.selectNext()
             return result
-        elif tokens.next.type == 'Scanln':
+        elif tokens.next.type == 'UmpireAsk':
             tokens.selectNext()
             if tokens.next.type != 'LPAREN':
                 raise ValueError(f"erro Lparen {tokens.next.type}")
             tokens.selectNext()
             if tokens.next.type != 'RPAREN':
-                raise ValueError(f"Esperado ')' após 'Scanln'")
+                raise ValueError(f"Esperado {tokens.next.type} apos PRINT factor")
             tokens.selectNext()
-            return ScanfOp("Scanln", [])
+            return ScanfOp("Scanln",[])
         elif tokens.next.type == 'IDENTIFIER':
-            identifier_name = IdentifierOp(tokens.next.value, [])
+            result = IdentifierOp(tokens.next.value, [])
             tokens.selectNext()
-            
-            if tokens.next.type == 'LPAREN':
-                call_node = FuncCall(identifier_name.value, [])
-                tokens.selectNext()
-                
-                if tokens.next.type != 'RPAREN':
-                    while tokens.next.type != 'RPAREN':
-                        arg = Parser.boolexpression()
-                        call_node.children.append(arg)
-                        if tokens.next.type != 'RPAREN':
-                            if tokens.next.type != 'COMMA':
-                                raise ValueError(f"FuncCall expected ',' or ')' and got {tokens.next.type}")
-                            tokens.selectNext()
-                
-                tokens.selectNext()  # Consumir o token 'RPAREN'
-                result = call_node
-            else:
-                result = identifier_name
+            return result
         else:
-            raise ValueError(f"Unexpected token {tokens.next.type}")
-
-        return result
-
+            raise ValueError("ValueError exception thrown")
     @staticmethod
     def boolexpression():
         tokens=Parser.tokenizer
@@ -144,37 +124,18 @@ class Parser:
         return result
 
     @staticmethod
-        
     def parseAssignment():
         tokens = Parser.tokenizer
+        if tokens.next.type != 'IDENTIFIER':
+            raise ValueError(f"erro identifier {tokens.next.type}")
+        identifier = IdentifierOp(tokens.next.value, [])
+        tokens.selectNext()
+        if tokens.next.type != 'ASSIGN':
+            raise ValueError(f'erro assign {tokens.next.type}')
+        tokens.selectNext()
+        expression = Parser.boolexpression()
+        return AssignmentOp("=", [identifier, expression])
         
-        if tokens.next.type == 'IDENTIFIER':
-            ident = IdentifierOp(tokens.next.type,[])
-            tokens.selectNext()
-            if tokens.next.type == "ASSIGN":
-                tokens.selectNext()
-                val = Parser.boolexpression()
-                result = AssignmentOp(None, [ident, val])
-            
-            elif tokens.next.type == "LPAREN":
-                call_node = FuncCall(ident.value, [])
-                tokens.selectNext()
-                if tokens.next.type != "RPAREN":
-                    while True:
-                        ret_val = Parser.boolexpression()
-                        call_node.children.append(ret_val)
-                        if tokens.next.type == "RPAREN":
-                            break
-                        if tokens.next.type != "COMMA":
-                            raise Exception("Arguments must be separated by commas")
-                        tokens.selectNext()
-                result = call_node
-                tokens.selectNext()
-            else:
-                raise Exception ("Identifier error")
-        
-        return result
-
     @staticmethod
     def parseBlock():
         tokens = Parser.tokenizer
@@ -190,6 +151,7 @@ class Parser:
         while tokens.next.type != 'CLOSEK':
             statement = Parser.parseStatement()
             statements.append(statement)
+           
         tokens.selectNext()
         
         return BlockOp(None, statements)
@@ -197,71 +159,28 @@ class Parser:
         
     @staticmethod
     def parseProgram():
-        tokens = Parser.tokenizer
+        tokens=Parser.tokenizer
         statements = []
         while tokens.next.type != 'EOF':
-            statements.append(Parser.parseDeclaration())
+            statements.append(Parser.parseStatement())
+        # tokens.selectNext()
         return BlockOp("Block", statements)
-
-    @staticmethod
-    def parseDeclaration():
-        tokens = Parser.tokenizer
-        while tokens.next.type == 'NEWLINE':
-            tokens.selectNext()
-        if tokens.next.type != 'func':
-            raise ValueError(f"Esperado 'func' como palavra-chave, recebido '{tokens.next.type}'")
-        tokens.selectNext()
-
-        if tokens.next.type != 'IDENTIFIER':
-            raise ValueError(f"Esperado identificador para o nome da função, recebido '{tokens.next.type}'")
-        func_name = tokens.next.value
-        tokens.selectNext()
-
-        if tokens.next.type != 'LPAREN':
-            raise ValueError(f"Esperado '(' após o nome da função, recebido '{tokens.next.type}'")
-        tokens.selectNext()
-
-        args = []
-        while tokens.next.type != 'RPAREN':
-            if tokens.next.type != 'IDENTIFIER':
-                raise ValueError(f"Esperado nome do parâmetro, recebido '{tokens.next.type}'")
-            param_name = tokens.next.value
-            tokens.selectNext()
-
-            if tokens.next.type != 'type_value':
-                raise ValueError(f"Esperado tipo do parâmetro após '{param_name}', recebido '{tokens.next.type}'")
-            param_type = tokens.next.value
-            tokens.selectNext()
-
-            args.append((param_name, param_type))
-
-            if tokens.next.type == 'COMMA':
-                tokens.selectNext()
-
-        tokens.selectNext()  
-
-        if tokens.next.type != 'type_value':
-            raise ValueError(f"Esperado tipo de retorno para a função '{func_name}', recebido '{tokens.next.type}'")
-        return_type = tokens.next.value
-        tokens.selectNext()
-
-        body = Parser.parseBlock()
-
-        if tokens.next.type != 'NEWLINE':
-            raise ValueError(f"Esperado uma nova linha após o bloco da função, recebido '{tokens.next.type}'")
-        tokens.selectNext()
-
-        return FuncDec(return_type, [IdentifierOp(func_name, []), args, body])
 
     @staticmethod
     def parseStatement():
         tokens=Parser.tokenizer
-        statement=NoOp(0,[])
+        statment=NoOp(0,[])
         
         if tokens.next.type == 'IDENTIFIER':
-            statement = Parser.parseAssignment()
+            identifier = IdentifierOp(tokens.next.value, [])
+            tokens.selectNext()
+            if tokens.next.type != 'ASSIGN':
+                raise ValueError(f'erro assign {tokens.next.type}')
+            tokens.selectNext()
+            expression = Parser.boolexpression()
+            statment= AssignmentOp("=", [identifier, expression])
         
-        elif tokens.next.type == 'Println':
+        elif tokens.next.type == 'UmpireCall':
             tokens.selectNext()
             if tokens.next.type != 'LPAREN':
                 raise ValueError("erro LPAREN")
@@ -270,19 +189,19 @@ class Parser:
             if tokens.next.type != 'RPAREN':
                 raise ValueError(f"Esperado {tokens.next.type} após PRINT statement")
             tokens.selectNext()
-            statement= PrintOp("Println", [expression])
+            statment= PrintOp("Println", [expression])
         
-        elif tokens.next.type == 'if':
+        elif tokens.next.type == 'serve':
             tokens.selectNext()
             cond=Parser.boolexpression()
             blk=Parser.parseBlock()
-            if tokens.next.type=='else':
+            if tokens.next.type=='fault':
                 tokens.selectNext()
-                statement= IfOp("else",[cond,blk,Parser.parseBlock()])
+                statment= IfOp("else",[cond,blk,Parser.parseBlock()])
             else:
-                statement= IfOp("if",[cond,blk])
+                statment= IfOp("if",[cond,blk])
             
-        elif tokens.next.type=='for':
+        elif tokens.next.type=='set':
             tokens.selectNext()
             assign=Parser.parseAssignment()
             if tokens.next.type!='ENDC':
@@ -292,11 +211,11 @@ class Parser:
             if tokens.next.type!='ENDC':
                 raise ValueError(f"erro endc {tokens.next.type}")
             tokens.selectNext()
-            statement= ForOp("value",[assign,expression,
+            statment= ForOp("value",[assign,expression,
                                 Parser.parseAssignment(),
                                 Parser.parseBlock()])     
         
-        elif tokens.next.type=='var':
+        elif tokens.next.type=='ball':
             tokens.selectNext()
             if tokens.next.type!="IDENTIFIER":
                 raise ValueError(f"erro iden, {tokens.next.type}")
@@ -310,20 +229,14 @@ class Parser:
             
             if tokens.next.type=='ASSIGN':
                 tokens.selectNext()
-                statement= VarDec(type_val,[identificador,Parser.boolexpression()])
+                statment= VarDec(type_val,[identificador,Parser.boolexpression()])
             else:
-                statement= VarDec(type_val,[identificador])   
+                statment= VarDec(type_val,[identificador])   
         
-        elif tokens.next.type=='return':
-            tokens.selectNext()
-            expression=Parser.boolexpression()
-            statement=ReturnOp(None,[expression])
-           
         if tokens.next.type != "NEWLINE" :
             raise ValueError(f"erro newline,{tokens.next.type}")
         tokens.selectNext()
-        
-        return statement
+        return statment
         
     @staticmethod
     def run(code):

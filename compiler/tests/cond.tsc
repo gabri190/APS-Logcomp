@@ -1,0 +1,11 @@
+# teste 2
+ball a int
+a = 5
+
+serve a > 3 {
+    a = 2
+} fault {
+    a = 7
+}
+
+UmpireCall(a)

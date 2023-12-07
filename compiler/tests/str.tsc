@@ -1,0 +1,8 @@
+# teste 6
+
+ball str1 string  
+ball str2 string 
+
+str1 ="Hello "
+str2 = "World"
+UmpireCall(str1.str2)

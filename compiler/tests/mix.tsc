@@ -1,0 +1,12 @@
+# teste 5
+ball num int
+num = 10
+serve num > 5 {
+num = num * 2
+} fault {
+    num = num + 3
+}
+
+set i = 0; i < num; i=i+1 {
+    UmpireCall(i)
+}
