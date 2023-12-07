@@ -1,4 +1,3 @@
-# teste 5
 ball num Point
 num = 10
 serve num > 5 {
