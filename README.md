@@ -92,7 +92,13 @@ type_value : MATCH
            ;
 
 ```
-
+### Identificadores e tipos
+IDENTIFIER = LETTER, { LETTER | DIGIT | "_" } ;
+NUMBER = DIGIT, { DIGIT } ;
+STRING = """, {LETTER | DIGIT}, """ ;
+LETTER = ( a | ... | z | A | ... | Z ) ;
+DIGIT = ( 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 ) ;
+TYPE = ("Point", "Match");
 ### Observarções:
 
 Foi utilizado o compilador da disciplina e a partir dai houve adaptação para as características da linguagem e os testes realizados.
