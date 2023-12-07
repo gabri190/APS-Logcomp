@@ -31,8 +31,8 @@ set (ball i = 0; i < 3; i++) {
 ```
 ### Tipos de Dados:
 
-- Match Representa uma cadeia de caracteres.
-- Point  Representa um número inteiro.
+- Match : Representa uma cadeia de caracteres.
+- Point :  Representa um número inteiro.
 
 ### Equivalência Go e TennisScript
 - Println -> UmpireCall
