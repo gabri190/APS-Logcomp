@@ -52,44 +52,58 @@ set (ball i = 0; i < 3; i++) {
 
 #### TennisScript EBNF
 ```shell
-program : statement ;
+PROGRAM = { STATEMENT };
 
-statement : assignment
-          | umpire_call
-          | umpire_ask
-          | control_flow
-          | expr
-          ;
+BLOCK = { "{", "\n", STATEMENT, "}" };
 
-assignment : ID '=' expr ';' 
-
-umpire_call : UMPIRE_CALL LPAREN expr RPAREN ';' 
-
-umpire_ask : UMPIRE_ASK LPAREN ID RPAREN ';'
-
-control_flow : serve_statement
-             ;
-
-serve_statement : SERVE LPAREN expr RPAREN block FAULT block 
-rally_loop : RALLY LPAREN expr RPAREN block 
-
-block : OPENK statement CLOSEK 
-
-expr : comparison OR comparison 
-
-comparison : term EQ term | term NEQ term | term GT term | term LT term | term AND term 
-term : factor AND factor  ;
-
-factor : LPAREN expr RPAREN 
-       | ID 
-       | NUMBER 
-       | STRING 
-       ;
+STATEMENT = ( λ | FOR_LOOP | UMPIRE_CALL| ASSIGNMENT | IF_COND | COMMENT ), "\n";
 
 
-type_value : MATCH 
-           | POINT 
-           ;
+TYPE = "Point" | "double" | "Match" | "bool";
+
+FOR_LOOP = "Set", ":" , BEXPRESSION , ASSIGNMENT, BLOCK;
+
+ASSIGNMENT = IDENTIFIER, "=", REXPRESSION;
+
+IF_COND= "Serve", BEXPRESSION, BLOCK, {"Fault", BLOCK};
+
+BEXPRESSION = BTERM, {("OR"), BTERM};
+
+BTERM = REXPRESSION, {("AND"), REXPRESSION};
+
+REXPRESSION = EXPRESSION, {("==" | ">" | "<"), EXPRESSION};
+
+EXPRESSION = TERM, {("+" | "-" ), TERM};
+
+TERM = FACTOR, {("*" | "/"), FACTOR };
+
+FACTOR = (("+" | "-" | "!"), FACTOR | DIGIT | MATCH | BOOL | "(", EXPRESSION, ")" | IDENTIFIER | UMPIRE_ASK);
+
+UMPIRE_CALL = "UmpireCall", "(",  BEXPRESSION , ")";
+
+UMPIRE_ASK = "UmpireAsk", "(", ")"; //Comentarios : (type tem que estar em int no caso Point e antes ser declarado com o identifier )
+
+COMMENT = "//", { Any valid character }, "\n";
+
+TYPES_DEC = POINT | FLOAT | MATCH | BOOL;
+
+INT = DIGIT, { DIGIT };
+
+FLOAT = DIGIT, { DIGIT }, ".", DIGIT, { DIGIT };
+
+MATCH = "'", { Any valid character }, "'";
+
+BOOL = "True" | "False";
+
+IDENTIFIER = LETTER, { LETTER | DIGIT | "_" };
+
+LETTER = ( "a" | ... | "z" | "A" | ... | "Z" );
+
+DIGIT = ( "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" );
+
+Any valid character = Qualquer caractere válido, incluindo letras, números e caracteres especiais.
+
+
 
 ```
 ### Identificadores e tipos
