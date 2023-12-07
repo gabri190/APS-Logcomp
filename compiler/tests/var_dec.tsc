@@ -1,8 +1,8 @@
 
 # teste 4
-ball x int = 3
-ball y int = 7
-ball z int
+ball x Point = 3
+ball y Point = 7
+ball z Point
 
 z = x + y
 UmpireCall(z)

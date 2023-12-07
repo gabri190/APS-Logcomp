@@ -1,9 +1,4 @@
-type_value=["int","string"]
-from symboltable import FuncTable as ft
-from symboltable import SymbolTable,FuncTable
-global func_table
-
-func_table = FuncTable()
+type_value=["Point","Match"]
 
 class Node:
     def __init__(self):
@@ -116,16 +111,22 @@ class AssignmentOp(Node):
         left_value = self.children[0].value
         right_value, _type = result[0], result[1]
 
+        # Se o valor à direita for de Scanln e o tipo à esquerda for string, lançar um erro
+        if isinstance(self.children[1], ScanfOp) and table.getter(left_value)[1] == "string":
+            raise ValueError("Erro: Scanln() só pode ser usado com variáveis do tipo int.")
+
         return table.setter(left_value, right_value, _type)
+
+
+
 class PrintOp(Node):
     def __init__(self, value, children):
         self.value = value
         self.children = children
 
     def evaluate(self, table):
-        left_value = self.children[0].evaluate(table)[0]
+        left_value=self.children[0].evaluate(table)[0]
         print(left_value)
-
 
 class IdentifierOp(Node):
     def __init__(self, value, children):
@@ -142,10 +143,8 @@ class BlockOp(Node):
 
     def evaluate(self, table):
         for node in self.children:
-            ret_val=node.evaluate(table)
-            if ret_val:
-                return ret_val
-            
+            node.evaluate(table)
+
 class ScanfOp(Node):
     def __init__(self, value, children, expected_type=None):
         self.value = value
@@ -153,7 +152,8 @@ class ScanfOp(Node):
         self.expected_type = expected_type
 
     def evaluate(self, table):
-        
+        if self.expected_type and self.expected_type != "int":
+            raise ValueError("Erro: Scanln() só pode ser usado com variáveis do tipo int.")
         return (int(input()), type_value[0])
 
 
@@ -187,51 +187,8 @@ class VarDec(Node):
         if len(self.children) > 1:
             result = self.children[1].evaluate(table)
             val, _type = result[0], result[1]
-            
+            if _type != self.value:
+                raise TypeError(f"Erro: tentando inicializar a variável '{var_name}' do tipo '{self.value}' com um valor do tipo '{_type}'")
             table.setter(var_name, val, _type)
         else:
             table.create(var_name, None, self.value)  # Modificamos esta linha para criar a variável sem um valor inicial.
-class FuncDec(Node):
-    def __init__(self, value, children):
-        self.value = value
-        self.children = children
-
-    def evaluate(self, table):
-        function_name = self.children[0].value
-        
-        function_value = self  # Certifique-se de que esta linha está correta
-
-        if len(self.children) != 3:
-            raise Exception("Error in function declaration")
-        func_table.setter(function_name, (self.value,function_value))
-
-
-class ReturnOp(Node):
-    def __init__(self, value, children):
-        self.value = value
-        self.children = children
-
-    def evaluate(self, table):
-        return self.children[0].evaluate(table)
-
-class FuncCall(Node):
-
-    def __init__(self, value, children):
-        self.value = value
-        self.children = children  
-
-    def evaluate(self, table):
-       
-        
-        func_obj:FuncDec = func_table.getter(self.value)  
-        if len(self.children) != len(func_obj[1].children[1]):
-            raise Exception("Number of arguments from function declaration and function call differ")
-        local_st=SymbolTable()
-       
-        for var_dec, var_value in zip(func_obj[1].children[1], self.children):
-            var_dec.evaluate(local_st)
-                                     # Eval dos vardec (coloca na nova st) [arg = VarDec]
-            local_st.setter(var_dec.children[0].value, var_value.evaluate(table))  # Eval no escopo global
-        return func_obj[1].children[2].evaluate(local_st)
-        
-       

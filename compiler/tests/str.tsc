@@ -1,7 +1,7 @@
 # teste 6
 
-ball str1 string  
-ball str2 string 
+ball str1 Match  
+ball str2 Match 
 
 str1 ="Hello "
 str2 = "World"

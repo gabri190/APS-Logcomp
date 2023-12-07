@@ -1,6 +1,6 @@
 reserved = ['UmpireCall',"set", "serve", "fault", "UmpireAsk","ball"]
 # PRINTLN = reserved
-type_values=["string","int"]
+type_values=["Point","Match"]
 
 class Token:
     def __init__(self, token_type, token_value):

@@ -1,5 +1,5 @@
 # teste 5
-ball num int
+ball num Point
 num = 10
 serve num > 5 {
 num = num * 2

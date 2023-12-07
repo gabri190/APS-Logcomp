@@ -1,5 +1,5 @@
 # teste 2
-ball a int
+ball a Point
 a = 5
 
 serve a > 3 {
