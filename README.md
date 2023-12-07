@@ -107,3 +107,117 @@ NUMBER ::= [0-9]+ ; (* Números inteiros *)
 STRING ::= '"' [^"]* '"' ; (* Strings, sem escape para aspas duplas *)
 
 ```
+
+### Observarções:
+
+Foi utilizado o compilador da disciplina e a partir dai houve adaptação para as características da linguagem e os testes realizados.
+A seguir serão colocados exemplos de estruturas com a linguagem TennisScript.
+
+### Exemplos
+Todos esses exemplos estão encaixados na extensão .tsc
+#### Declaração variaveis
+
+```shell
+# var_dec.tsc
+
+ball x int = 3
+ball y int = 7
+ball z int
+
+z = x + y
+UmpireCall(z)
+```
+Saída Esperada: 10
+
+#### Condicionais
+
+```shell
+# cond.tsc
+
+ball a int
+a = 5
+
+serve a > 3 {
+    a = 2
+} fault {
+    a = 7
+}
+
+UmpireCall(a)
+```
+Saída Esperada: 2 
+
+#### Loop
+
+```shell
+# loop.tsc
+
+ball sum int=0
+set i = 1; i < 6 ; i = i + 1 {
+sum=sum+i
+} 
+UmpireCall(sum)
+
+```
+Saída Esperada: 15
+
+#### Strings
+
+```shell
+# str.tsc
+
+ball str1 string  
+ball str2 string 
+
+str1 ="Hello "
+str2 = "World"
+UmpireCall(str1.str2)
+
+```
+Saída Esperada: Hello Word
+
+#### Mix de estruturas
+
+```shell
+# mix.tsc
+
+ball num int
+num = 10
+serve num > 5 {
+num = num * 2
+} fault {
+    num = num + 3
+}
+
+set i = 0; i < num; i=i+1 {
+    UmpireCall(i)
+}
+```
+Saída Esperada: 
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+
+
+
+
+
+
+
