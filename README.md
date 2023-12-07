@@ -87,7 +87,7 @@ COMMENT = "//", { Any valid character }, "\n";
 
 TYPES_DEC = POINT | FLOAT | MATCH | BOOL;
 
-INT = DIGIT, { DIGIT };
+POINT = DIGIT, { DIGIT };
 
 FLOAT = DIGIT, { DIGIT }, ".", DIGIT, { DIGIT };
 
