@@ -51,6 +51,7 @@ set (ball i = 0; i < 3; i++) {
 
 
 #### TennisScript EBNF
+
 ```shell
 PROGRAM = { STATEMENT };
 
@@ -126,8 +127,9 @@ A seguir serão colocados exemplos de estruturas com a linguagem TennisScript.
 
 Para compilar você pode ir até o diretorio "compiler" e entrar no diretório "tests" digitando o seguinte comando a seguir:
 
+#### No Diretório da APS (entre duas pastas dentro quando clonar o repositório)
+
 ```shell
-# No Diretório da APS (entre duas pastas dentro quando clonar o repositório)
 cd compiler\tests
 ```
 Agora execute esse comando
