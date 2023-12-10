@@ -139,6 +139,16 @@ Onde o "arquivo.tsc" pode ser substituido pelos arquivos que estão dentro da pa
 
 ### Exemplos
 Todos esses exemplos estão encaixados na extensão .tsc
+
+#### input
+
+```shell
+
+ball x_1 Point
+x_1 = UmpireAsk()
+
+```
+
 #### Declaração variaveis
 
 ```shell
