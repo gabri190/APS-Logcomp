@@ -132,7 +132,7 @@ cd compiler\tests
 ```
 Agora execute esse comando
 ```shell
-python ../main.py arquivo.tsc
+python ..\main.py arquivo.tsc
 
 ```
 Onde o "arquivo.tsc" pode ser substituido pelos arquivos que estão dentro da pasta tests e que serão apresentados como exemplo a seguir.
