@@ -127,10 +127,11 @@ A seguir serão colocados exemplos de estruturas com a linguagem TennisScript.
 Para compilar você pode ir até o diretorio "compiler" e entrar no diretório "tests" digitando o seguinte comando a seguir:
 
 ```shell
-# No Diretório da APS
+# No Diretório da APS (entre duas pastas dentro quando clonar o repositório)
 cd compiler\tests
 ```
 Agora execute esse comando
+
 ```shell
 python ..\main.py arquivo.tsc
 
@@ -140,15 +141,104 @@ Onde o "arquivo.tsc" pode ser substituido pelos arquivos que estão dentro da pa
 ### Exemplos
 Todos esses exemplos estão encaixados na extensão .tsc
 
-#### input
+#### Teste com todas as estruturas
 
 ```shell
+# teste_mix.tsc
+ball x_1 Point
+x_1 = UmpireAsk()
 
+UmpireCall(x_1)
+
+serve (x_1 > 1 && !!!(x_1 < 1)) || x_1 == 3 {
+x_1 = 2
+} 
+
+ball x Point = 3+6/3   *  2 -+-  +  2*4/2 + 0/1 -((6+ ((4)))/(2)) // Teste // Teste 2
+ball y_1 Point = 3
+y_1 = y_1 + x_1
+ball z__ Point
+z__ = x + y_1
+
+serve x_1 == 2 {
+x_1 = 2
+}
+serve x_1 == 3 {
+x_1 = 2
+} fault {
+x_1 = 3
+}
+
+set x_1 = 0; x_1 < 1 || x == 2; x_1 = x_1 + 1 {
+UmpireCall(x_1)
+} 
+
+UmpireCall(x_1)
+UmpireCall(x)
+UmpireCall(z__+1)
+
+ball y Point = 2
+ball z Point
+z = (y == 2)
+UmpireCall(y+z)
+UmpireCall(y-z)
+UmpireCall(y*z)
+UmpireCall(y/z)
+UmpireCall(y == z)
+UmpireCall(y < z)
+UmpireCall(y > z)
+
+ball a Match 
+ball b Match
+
+x_1 = 1 
+y = 1 
+z = 2
+a = "abc"
+b = "def"
+UmpireCall(a.b)
+UmpireCall(a.x_1)
+UmpireCall(x_1.a)
+UmpireCall(y.z)
+UmpireCall(a.(x_1==1))
+UmpireCall(a == a)
+UmpireCall(a < b)
+UmpireCall(a > b)
+
+```
+Para um input = 3
+
+Output esperado = 
+- 3
+- 0
+- 1
+- 6
+- 12
+- 3
+- 1
+- 2
+- 2
+- 0
+- 0
+- 1
+- abcdef
+- abc1
+- 1abc
+- 12
+- abc1
+- 1
+- 1
+- 0
+
+#### Input
+
+```shell
+# input.tsc
 ball x_1 Point
 x_1 = UmpireAsk()
 
 ```
-
+Saída Esperada: valor que foi colocado no input
 #### Declaração variaveis
 
 ```shell
@@ -228,26 +318,26 @@ set i = 0; i < num; i=i+1 {
 }
 ```
 Saída Esperada: 
-0
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
+- 0
+- 1
+- 2
+- 3
+- 4
+- 5
+- 6
+- 7
+- 8
+- 9
+- 10
+- 11
+- 12
+- 13
+- 14
+- 15
+- 16
+- 17
+- 18
+- 19
 
 
 
