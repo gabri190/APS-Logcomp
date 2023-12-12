@@ -26,25 +26,25 @@ statement : λ
           | COMMENT
           , NEWLINE ;
 
-type_value : MATCH OPENK /* Implemente a lógica para lidar com MATCH type */ CLOSEK
-           | POINT OPENK /* Implemente a lógica para lidar com POINT type */ CLOSEK
+type_value : MATCH 
+           | POINT 
            ;
 
-for_loop = "Set", ":" , bexpression , assignment, block;
+FOR_LOOP = "Set", ":" , bexpression , ASSIGNMENT, block;
 
-assignment = identifier, "=", rexpression;
+ASSIGNMENT = identifier, "=", rexpression;
 
-IF_COND= "Serve", BEXPRESSION, BLOCK, OPENK"Fault", BLOCKCLOSEK;
+IF_COND= "Serve", BEXPRESSION, BLOCK, OPENK "Fault", BLOCK CLOSEK;
 
-bexpression = bterm, OPENK("OR"), btermCLOSEK;
+bexpression = bterm, OPENK ("OR"), bterm CLOSEK;
 
-bterm = rexpression, OPENK("AND"), rexpressionCLOSEK;
+bterm = rexpression, OPENK ("AND"), rexpression CLOSEK;
 
-rexpression = expression, OPENK(EQ | GT | LT), expressionCLOSEK;
+rexpression = expression, OPENK (EQ | GT | LT), expression CLOSEK;
 
-expression = term, OPENK("+" | "-" ), termCLOSEK;
+expression = term, OPENK ("+" | "-" ), term CLOSEK;
 
-term = factor, OPENK("*" | "/"), factor CLOSEK;
+term = factor, OPENK ("*" | "/"), factor CLOSEK;
 
 factor = (("+" | "-" | NEQ), factor | DIGIT | MATCH | BOOL | LPAREN, EXPRESSION, RPAREN | IDENTIFIER | UMPIRE_ASK);
 
