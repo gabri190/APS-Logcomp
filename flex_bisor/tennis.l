@@ -26,8 +26,8 @@ char* yyval;
 "("             { return LPAREN; }
 ")"             { return RPAREN; }
 "=="            { return EQ; }
-">="            { return GT; }
-"<="            { return LT; }
+">"            { return GT; }
+"<"            { return LT; }
 "&&"            { return AND; }
 "||"            { return OR; }
 [ \t\n]         ; // Ignorar espaços em branco e novas linhas
