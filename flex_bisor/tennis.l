@@ -18,13 +18,11 @@ char* yyval;
 "Set"           { return SET; }
 "Match"         { return MATCH; }
 "Point"         { return POINT; }
-"Equal"         { return EQ; }
-">"             { return GT; }
-"<"             { return LT; }
 "{"             { return OPENK; }
 "}"             { return CLOSEK; }
 "("             { return LPAREN; }
 ")"             { return RPAREN; }
+"!"              { return NEQ; }
 "=="            { return EQ; }
 ">"            { return GT; }
 "<"            { return LT; }
